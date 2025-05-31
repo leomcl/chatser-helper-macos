@@ -1,4 +1,12 @@
 //
+//  MainViewModel.swift
+//  chatser-helper
+//
+//  Created by Leo Mclaughlin on 30/05/2025.
+//
+
+
+//
 //  MainViewModel.swift.swift
 //  chatser-helper
 //

@@ -14,14 +14,14 @@ struct chatser_helperApp: App {
             // You'll likely want to put your main input UI here.
             // Let's create a dedicated view for this, e.g., MenuBarContentView()
             MenuBarContentView()
-                .frame(width: 350, height: 200) // Adjust size as needed
+                .frame(width: 500, height: 400) // Adjust size as needed
         } label: {
             // This is what the user sees in the menu bar itself.
             // It can be text, an SF Symbol, or a custom image.
             Image(systemName: "bubble.middle.bottom.fill") // Example icon
             // Text("Chatser") // Or Text
         }
-        //.menuBarExtraStyle(.window) // Use .window for a popover-like behavior
+        .menuBarExtraStyle(.window) // Use .window for a popover-like behavior
                                     // Use .menu for a traditional menu dropdown
                                     // For a UI like Substage, .window is more appropriate
     }
