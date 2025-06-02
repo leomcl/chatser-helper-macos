@@ -25,7 +25,7 @@ struct MenuBarContentView: View {
             .focused($focusedField, equals: .queryInput)
             .padding(.horizontal) // Padding around the TextField
 
-            // --- Simplified Button Styling ---
+            
             Button(action: {
                 viewModel.submitQuery()
             }) {
