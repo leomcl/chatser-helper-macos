@@ -11,7 +11,7 @@ import Foundation
 struct MockLLMService {
     func process(query: UserQuery, completion: @escaping (LLMResponseData) -> Void) {
         // Simulate a delay
-        DispatchQueue.global().asyncAfter(deadline: .now() + 1.5) {
+        DispatchQueue.global().asyncAfter(deadline: .now() + 0.5) {
             // Simulate different responses based on input for testing
             if query.text.lowercased().contains("test1") {
                 completion(LLMResponseData(generatedCommand: "open -a Spotify"))
