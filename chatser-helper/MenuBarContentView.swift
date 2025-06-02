@@ -21,7 +21,6 @@ struct MenuBarContentView: View {
                 viewModel.submitQuery()
             })
             .textFieldStyle(RoundedBorderTextFieldStyle()) // Reverted to standard bordered style for simplicity
-                                                       // This style handles light/dark mode well.
             .font(.system(size: 14))
             .focused($focusedField, equals: .queryInput)
             .padding(.horizontal) // Padding around the TextField
@@ -32,8 +31,7 @@ struct MenuBarContentView: View {
             }) {
                 Text("Submit")
                     .font(.system(size: 13, weight: .medium))
-                    // Let the button style handle padding, or add minimal if needed:
-                    // .padding(.horizontal, 10).padding(.vertical, 5)
+
             }
             .buttonStyle(.borderedProminent) // Use a standard prominent style. Clear and simple.
             .disabled(viewModel.isLoading)
@@ -63,7 +61,6 @@ struct MenuBarContentView: View {
         .padding(.vertical, 5)   // Added a little vertical padding for breathing room
         .frame(minWidth: 350, idealWidth: 400, minHeight: 250, idealHeight: 300) // Adjusted frame
         .background(.ultraThinMaterial) // Changed to ultraThinMaterial for a slightly less intense effect,
-                                       // or keep .ultraThickMaterial if you prefer.
         .onAppear {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                 focusedField = .queryInput
