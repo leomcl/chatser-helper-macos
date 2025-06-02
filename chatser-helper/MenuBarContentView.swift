@@ -10,57 +10,82 @@ struct MenuBarContentView: View {
     @FocusState private var focusedField: Field?
 
     var body: some View {
-        VStack(spacing: 12) { // Keep reasonable spacing
+        VStack(spacing: 10) {
             Text("Chatser Helper")
                 .font(.headline)
                 .foregroundColor(.primary)
-                .padding(.top, 10) // Keep some top padding
+                .padding(.top, 8)
 
-            // --- Simplified TextField Styling ---
-            TextField("Ask or type a command...", text: $viewModel.userQueryText, onCommit: {
-                viewModel.submitQuery()
+            TextField("Type 'list files', 'who am i', 'help'...", text: $viewModel.userQueryText, onCommit: {
+                viewModel.submitQuery() // Gets command for review or shows instructions
             })
-            .textFieldStyle(RoundedBorderTextFieldStyle()) // Reverted to standard bordered style for simplicity
+            .textFieldStyle(RoundedBorderTextFieldStyle())
             .font(.system(size: 14))
             .focused($focusedField, equals: .queryInput)
-            .padding(.horizontal) // Padding around the TextField
+            .padding(.horizontal)
 
-            
+            // --- Review and Execute Section ---
+            if let commandToReview = viewModel.generatedCommandForReview, !commandToReview.isEmpty {
+                VStack(alignment: .leading) { // Group review text and button
+                    Text("Review Command:") // This line was part of displayOutput before, now more structured
+                        .font(.caption.bold())
+                    Text("\"\(commandToReview)\"")
+                        .font(.caption.monospaced()) // Monospaced for commands
+                        .padding(.vertical, 2)
+                        .frame(maxWidth: .infinity, alignment: .leading) // Ensure it takes width
+                        .background(Color.gray.opacity(0.1))
+                        .cornerRadius(4)
+
+
+                    Button(action: {
+                        viewModel.executeReviewedCommand() // Calls the new execute function
+                    }) {
+                        Text("Execute This Command")
+                            .font(.system(size: 13, weight: .medium))
+                    }
+                    .buttonStyle(.bordered) // A less prominent style than .borderedProminent for this action
+                    .tint(.orange) // Make it distinct
+                    .padding(.top, 5)
+                }
+                .padding(.horizontal)
+                .padding(.vertical, 5)
+            }
+
+            // "Submit" button could be hidden or disabled if a command is awaiting review,
+            // or its action could change. For simplicity, we leave it as is for now
+            // (it triggers submitQuery which gets a new command for review).
             Button(action: {
                 viewModel.submitQuery()
             }) {
-                Text("Submit")
+                Text("Get Command / Show Instructions") // Clarified button purpose
                     .font(.system(size: 13, weight: .medium))
-
             }
-            .buttonStyle(.borderedProminent) // Use a standard prominent style. Clear and simple.
-            .disabled(viewModel.isLoading)
-            .padding(.bottom, 8) // Add some space below the button
+            .buttonStyle(.borderedProminent)
+            .disabled(viewModel.isLoading && viewModel.generatedCommandForReview == nil) // Disable if loading AND no command to review yet
+            .padding(.bottom, 5)
+
 
             if viewModel.isLoading {
                 ProgressView()
                     .padding(.vertical, 5)
             }
 
-            // --- Simplified Output Area ---
             ScrollView {
-                Text(viewModel.displayOutput)
+                Text(viewModel.displayOutput) // This will show all messages from ViewModel
                     .font(.system(size: 12))
                     .foregroundColor(.secondary)
                     .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(5) // Simple padding inside the scroll view content
+                    .padding(5)
             }
             .frame(maxHeight: .infinity)
-            // .background(Color(NSColor.textBackgroundColor)) // Optional: remove if material background is enough
-            // .cornerRadius(6) // Optional: remove if you prefer sharper edges for the scroll area
             .padding(.horizontal)
-            .padding(.bottom, 10) // Keep some bottom padding
+            .padding(.bottom, 10)
 
         }
-        .padding(.horizontal, 10) // Overall horizontal padding for the VStack
-        .padding(.vertical, 5)   // Added a little vertical padding for breathing room
-        .frame(minWidth: 350, idealWidth: 400, minHeight: 250, idealHeight: 300) // Adjusted frame
-        .background(.ultraThinMaterial) // Changed to ultraThinMaterial for a slightly less intense effect,
+        .padding(.horizontal, 10)
+        .padding(.vertical, 5)
+        .frame(minWidth: 380, idealWidth: 450, minHeight: 300, idealHeight: 400) // Increased height slightly
+        .background(.ultraThinMaterial)
         .onAppear {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                 focusedField = .queryInput
