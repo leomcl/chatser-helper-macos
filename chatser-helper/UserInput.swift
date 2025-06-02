@@ -10,5 +10,4 @@ import Foundation
 
 struct UserQuery {
     var text: String
-    // You might add other things later, like context (e.g., selected file path, active application)
 }

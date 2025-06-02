@@ -24,7 +24,7 @@ class MainViewModel: ObservableObject { // Conforms to ObservableObject to be us
     @Published var displayOutput: String = "Ask me something or tell me what to do..." // For showing results/instructions
     @Published var isLoading: Bool = false // To show a progress indicator
 
-    // --- Placeholder for your LLM Service (we'll make a real one later) ---
+    // --- Placeholder for your LLM Service --
     private var llmService = MockLLMService() // We'll define this next
 
     // --- Intentions / Actions from the View ---
