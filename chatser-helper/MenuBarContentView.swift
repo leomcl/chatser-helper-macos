@@ -17,7 +17,7 @@ struct MenuBarContentView: View {
                 .padding(.top, 8)
 
             TextField("Type 'list files', 'who am i', 'help'...", text: $viewModel.userQueryText, onCommit: {
-                viewModel.submitQuery() // Gets command for review or shows instructions
+                viewModel.submitQueryToLLM()
             })
             .textFieldStyle(RoundedBorderTextFieldStyle())
             .font(.system(size: 14))
@@ -55,13 +55,13 @@ struct MenuBarContentView: View {
             // or its action could change. For simplicity, we leave it as is for now
             // (it triggers submitQuery which gets a new command for review).
             Button(action: {
-                viewModel.submitQuery()
+                viewModel.submitQueryToLLM()
             }) {
                 Text("Get Command / Show Instructions") // Clarified button purpose
                     .font(.system(size: 13, weight: .medium))
             }
             .buttonStyle(.borderedProminent)
-            .disabled(viewModel.isLoading && viewModel.generatedCommandForReview == nil) // Disable if loading AND no command to review yet
+            .disabled(viewModel.isLoading && viewModel.generatedCommandForReview == nil) // Disable if  loading AND no command to review yet
             .padding(.bottom, 5)
 
 
